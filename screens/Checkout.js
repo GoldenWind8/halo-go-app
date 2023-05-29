@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import CartItem from "./components/cards/CartItem";
-import * as Database from "./components/database/Database";
-import Deeplink from "./Deeplink";
+import CartItem from "../components/cards/CartItem";
+import * as Database from "../components/database/Database";
+import Deeplink from "../Deeplink";
 
 const Checkout = () => {
     const [data, setData] = useState(items);

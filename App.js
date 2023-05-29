@@ -3,9 +3,9 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Home from "./screens/Home";
 import ProductInfo from "./screens/ProductInfo";
-import Checkout from "./Checkout";
+import Checkout from "./screens/Checkout";
 import LoginScreen from "./screens/welcome/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
+import RegisterScreen from "./screens/welcome/RegisterScreen";
 
 
 export default function App() {
@@ -17,8 +17,10 @@ export default function App() {
             screenOptions={{headerShown: false,}}
         >
 
-          <Stack.Screen name={"Home"} component={Home} />
-          <Stack.Screen name="Login" component={LoginScreen} />
+
+            <Stack.Screen name={"Home"} component={Home} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name={"ProductInfo"} component={ProductInfo} />
           <Stack.Screen name={"MyCart"} component={Checkout} />

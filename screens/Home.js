@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StatusBar, StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {COLOURS, Items} from "../components/database/Database";
-import {ScrollView} from "react-native-gesture-handler";
+import {GestureHandlerRootView, ScrollView} from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import ProductCard from "../components/cards/ProductCard";
@@ -30,44 +30,44 @@ function Home({navigation}) {
         setProducts(productList);
     };
     return (
-        <SafeAreaView>
-            <View style={styles.container}>
-                <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.header}>
-                        <TouchableOpacity>
-                            <MaterialIcons
-                                name="inventory"
-                                style={styles.shoppingIcon}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => navigation.navigate('MyCart')}>
-                            <MaterialCommunityIcons
-                                name="cart"
-                                style={styles.cartIcon}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.bodyContainer}>
-                        <View style={styles.sectionHeader}>
-                            <Text style={styles.sectionTitle}>
-                                Products
-                            </Text>
-                            <Text style={styles.sectionCount}>
-                                6
-                            </Text>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaView>
+                <View style={styles.container}>
+                    <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View style={styles.header}>
+                            <TouchableOpacity>
+                                <MaterialIcons
+                                    name="inventory"
+                                    style={styles.shoppingIcon}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('MyCart')}>
+                                <MaterialCommunityIcons
+                                    name="cart"
+                                    style={styles.cartIcon}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.productList}>
-                            {products.map(data => {
-                                return <ProductCard data={data} navigation={navigation} key={data.id} />;
-                            })}
+                        <View style={styles.bodyContainer}>
+                            <View style={styles.sectionHeader}>
+                                <Text style={styles.sectionTitle}>
+                                    Products
+                                </Text>
+                                <Text style={styles.sectionCount}>
+                                    6
+                                </Text>
+                            </View>
+                            <View style={styles.productList}>
+                                {products.map(data => {
+                                    return <ProductCard data={data} navigation={navigation} key={data.id} />;
+                                })}
+                            </View>
                         </View>
-                    </View>
-                </ScrollView>
-            </View>
-        </SafeAreaView>
-
-
+                    </ScrollView>
+                </View>
+            </SafeAreaView>
+        </GestureHandlerRootView>
     );
 }
 

@@ -7,11 +7,11 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import Spacing from "../constants/Spacing";
-import FontSize from "../constants/FontSize";
-import Colors from "../constants/Colors";
-import Font from "../constants/Font";
-import AppTextInput from "../components/AppTextInput";
+import Spacing from "../../constants/Spacing";
+import FontSize from "../../constants/FontSize";
+import Colors from "../../constants/Colors";
+import Font from "../../constants/Font";
+import AppTextInput from "../../components/AppTextInput";
 
 
 const RegisterScreen = ({ navigation: { navigate } }) => {
