@@ -10,8 +10,6 @@ import React from "react";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
-import Font from "../../constants/Font";
-import { Ionicons } from "@expo/vector-icons";
 import AppTextInput from "../../components/AppTextInput";
 
 
@@ -84,6 +82,7 @@ const LoginScreen = ({ navigation: { navigate } }) => {
             shadowOpacity: 0.3,
             shadowRadius: Spacing,
           }}
+          onPress={() => navigate("Home")}
         >
           <Text
             style={{

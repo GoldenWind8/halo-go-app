@@ -36,7 +36,7 @@ const WelcomeScreen = ({ navigation: { navigate } }) => {
             style={{
               fontSize: FontSize.xxLarge,
               color: Colors.primary,
-              fontFamily: Font["poppins-bold"],
+              /*fontFamily: Font["poppins-bold"],*/
               textAlign: "center",
             }}
           >
@@ -47,7 +47,7 @@ const WelcomeScreen = ({ navigation: { navigate } }) => {
             style={{
               fontSize: FontSize.small,
               color: Colors.text,
-              fontFamily: Font["poppins-regular"],
+             /* fontFamily: Font["poppins-regular"],*/
               textAlign: "center",
               marginTop: Spacing * 2,
             }}
@@ -82,7 +82,7 @@ const WelcomeScreen = ({ navigation: { navigate } }) => {
           >
             <Text
               style={{
-                fontFamily: Font["poppins-bold"],
+                /*fontFamily: Font["poppins-bold"],*/
                 color: Colors.onPrimary,
                 fontSize: FontSize.large,
                 textAlign: "center",
@@ -102,7 +102,7 @@ const WelcomeScreen = ({ navigation: { navigate } }) => {
           >
             <Text
               style={{
-                fontFamily: Font["poppins-bold"],
+                /*fontFamily: Font["poppins-bold"],*/
                 color: Colors.text,
                 fontSize: FontSize.large,
                 textAlign: "center",

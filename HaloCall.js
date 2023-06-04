@@ -5,12 +5,12 @@ import Deeplink from "./Deeplink";
 export default function HaloCall() {
   var myHeaders = new Headers();
   const [intentResponse, setIntentResponse] = useState(null);
-  myHeaders.append("x-api-key", "KzI3NzY4NzYzOTM3LjU5NTE3NzAxLWQ5MjYtNDczZS05YzkxLWZjYTY2NmU1NmYxMA==");
+  myHeaders.append("x-api-key", "KzI3Njc5NzY1NTY0LjVhN2I3NmIyLTBkNTgtNGY4Mi1hODk2LWM4MzhjYWFjMTJmYg==");
   myHeaders.append("Content-Type", "application/json");
 
   var raw = JSON.stringify({
     "amount": 13,
-    "merchantId": 537,
+    "merchantId": 597,
     "paymentReference": "qwerty",
     "currencyCode": "ZAR",
     "timestamp": "Wed Oct 19 2022 15:41:40 GMT+0300"
@@ -25,7 +25,7 @@ export default function HaloCall() {
 
 
   useEffect(() => {
-    fetch("https://kernelserver.prod.haloplus.io/consumer/intentTransaction", requestOptions)
+    fetch("https://kernelserver.qa.haloplus.io/consumer/intentTransaction", requestOptions)
         .then(response => response.text())
         .then((result) => {
           const parsedResponse = JSON.parse(result);
