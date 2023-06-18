@@ -36,7 +36,7 @@ function Home({navigation}) {
                     <StatusBar backgroundColor={COLOURS.white} barStyle="dark-content" />
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={styles.header}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('Inventory')}>
                                 <MaterialIcons
                                     name="inventory"
                                     style={styles.shoppingIcon}

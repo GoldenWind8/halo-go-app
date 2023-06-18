@@ -16,7 +16,7 @@ const Checkout = () => {
                     data.map((item) =>
                     {
                         return(
-                            <CartItem data={item}/>
+                            <CartItem data={item} key={item.id}/>
                         );
                     })
                 }
