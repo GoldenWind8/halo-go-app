@@ -1,16 +1,18 @@
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ImageComponent,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    Image,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import React from "react";
 import Spacing from "../../constants/Spacing";
 import FontSize from "../../constants/FontSize";
 import Colors from "../../constants/Colors";
 import AppTextInput from "../../components/AppTextInput";
+import logo from "../../assets/logo.png";
 
 
 const LoginScreen = ({ navigation: { navigate } }) => {
@@ -26,6 +28,10 @@ const LoginScreen = ({ navigation: { navigate } }) => {
             alignItems: "center",
           }}
         >
+            <Image
+                style={styles.image}
+                source={logo}
+            />
           <Text
             style={{
               fontSize: FontSize.xLarge,
@@ -34,18 +40,9 @@ const LoginScreen = ({ navigation: { navigate } }) => {
               marginVertical: Spacing * 3,
             }}
           >
-            Login here
+            Login
           </Text>
-          <Text
-            style={{
-              /*fontFamily: Font["poppins-semiBold"],*/
-              fontSize: FontSize.large,
-              maxWidth: "60%",
-              textAlign: "center",
-            }}
-          >
-            Logo somewherer here!
-          </Text>
+
         </View>
         <View
           style={{
@@ -117,4 +114,9 @@ const LoginScreen = ({ navigation: { navigate } }) => {
 
 export default LoginScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    image:{
+        width: 200,
+        height: 200,
+    }
+});

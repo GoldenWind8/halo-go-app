@@ -61,7 +61,9 @@ const Inventory = ({navigation}) => {
             />
             <TouchableOpacity
                 style={styles.newProductButton}
-                onPress={() => navigation.navigate('NewProduct')}
+                onPress={() =>
+                    navigation.navigate('InventoryUpdate', { productID: -1, isEditing: false })
+                }
             >
                 <Text style={styles.newProductButtonText}>Add new product</Text>
             </TouchableOpacity>

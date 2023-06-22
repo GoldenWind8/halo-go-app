@@ -57,7 +57,7 @@ function Deeplink({amount}) {
                     onPress={handlePress}
                     style={styles.addToCartButtonContainer}>
                     <Text style={styles.addToCartButtonText}>
-                        Pay With Halo
+                        Pay With Halo.Link
                     </Text>
                 </TouchableOpacity>
             </View>

@@ -6,6 +6,8 @@ import ProductInfo from "./screens/ProductInfo";
 import Checkout from "./screens/Checkout";
 import LoginScreen from "./screens/welcome/LoginScreen";
 import RegisterScreen from "./screens/welcome/RegisterScreen";
+import Inventory from "./screens/Inventory";
+import InventoryUpdate from "./screens/InventoryUpdate";
 
 
 export default function App() {
@@ -16,8 +18,11 @@ export default function App() {
         <Stack.Navigator
             screenOptions={{headerShown: false,}}
         >
-            {/*<Stack.Screen name="Login" component={LoginScreen} />*/}
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name={"Register"} component={RegisterScreen}/>
             <Stack.Screen name={"Home"} component={Home} />
+            <Stack.Screen name={"Inventory"} component={Inventory} />
+            <Stack.Screen name={"InventoryUpdate"} component={InventoryUpdate}/>
           <Stack.Screen name={"ProductInfo"} component={ProductInfo} />
           <Stack.Screen name={"MyCart"} component={Checkout} />
         </Stack.Navigator>

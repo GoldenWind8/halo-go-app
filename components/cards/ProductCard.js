@@ -6,7 +6,7 @@ import {COLOURS} from "../database/Database";
 function ProductCard({navigation, data}) {
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate('ProductInfo', {productID: data.id})}
+            onPress={() => navigation.navigate('InventoryUpdate', {productID: data.id})}
             style={styles.container2}>
             <View style={styles.productImageContainer}>
                 <Image source={data.productImage} style={styles.productImage} />
