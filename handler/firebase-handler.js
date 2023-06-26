@@ -1,6 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
-const auth = getAuth();
+import {auth} from "../firebase-config";
 
 export function register(email, password) {
     return new Promise((resolve, reject) => {

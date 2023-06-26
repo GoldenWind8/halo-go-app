@@ -6,15 +6,25 @@ import {GestureHandlerRootView, ScrollView} from "react-native-gesture-handler";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import ProductCard from "../components/cards/ProductCard";
+import {auth} from "../firebase-config";
 
 function Home({navigation}) {
     const [products, setProducts] = useState([]);
+    const [userEmail, setUserEmail] = useState(null);
 
     //get called on screen loads
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             getDataFromDB();
         });
+
+        // Get current user
+        const user = auth.currentUser;
+        if (user != null) {
+            setUserEmail(user.email); // Set user email
+        } else {
+            setUserEmail(null); // Reset if user is not logged in
+        }
 
         return unsubscribe;
     }, [navigation]);
@@ -52,7 +62,7 @@ function Home({navigation}) {
                         <View style={styles.bodyContainer}>
                             <View style={styles.sectionHeader}>
                                 <Text style={styles.sectionTitle}>
-                                    Products
+                                    Products {userEmail}
                                 </Text>
                                 <Text style={styles.sectionCount}>
                                     6

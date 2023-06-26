@@ -20,7 +20,7 @@ function ProductCard({navigation, data}) {
                             style={[styles.availableIcon, {color: COLOURS.green}]}
                         />
                         <Text style={[styles.availableText, {color: COLOURS.green}]}>
-                            Available
+                            {data.stock} Remaining
                         </Text>
                     </View>
                 ) : (

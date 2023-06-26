@@ -22,7 +22,7 @@ const AppTextInput = ({ ...otherProps }) => {
         {
           /*fontFamily: Font["poppins-regular"],*/
           fontSize: FontSize.small,
-          padding: Spacing * 2,
+          padding: Spacing * 1,
           backgroundColor: Colors.lightPrimary,
           borderRadius: Spacing,
           marginVertical: Spacing,
