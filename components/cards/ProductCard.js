@@ -6,14 +6,14 @@ import {COLOURS} from "../database/Database";
 function ProductCard({navigation, data}) {
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate('InventoryUpdate', {productID: data.id})}
+            onPress={() => navigation.navigate('ProductInfo', {productID: data.id})}
             style={styles.container2}>
             <View style={styles.productImageContainer}>
-                <Image source={data.productImage} style={styles.productImage} />
+                <Image source={{uri:data.imgUrl}} style={styles.productImage} />
             </View>
-            <Text style={styles.productName}>{data.productName}</Text>
+            <Text style={styles.productName}>{data.name}</Text>
             {
-                data.isAvailable ? (
+                (data.stock>0) ? (
                     <View style={styles.availableContainer}>
                         <FontAwesome
                             name="circle"
@@ -35,7 +35,7 @@ function ProductCard({navigation, data}) {
                     </View>
                 )
             }
-            <Text style={styles.priceText}>R {data.productPrice}</Text>
+            <Text style={styles.priceText}>R {data.price}</Text>
         </TouchableOpacity>
     );
 }

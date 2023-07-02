@@ -7,6 +7,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import ProductCard from "../components/cards/ProductCard";
 import {auth} from "../firebase-config";
+import {getProducts} from "../handler/products-handler";
 
 function Home({navigation}) {
     const [products, setProducts] = useState([]);
@@ -30,12 +31,9 @@ function Home({navigation}) {
     }, [navigation]);
 
     //get data from DB
-    const getDataFromDB = () => {
-        let productList = [];
-        for (let index = 0; index < Items.length; index++) {
+    const getDataFromDB = async () => {
+        let productList = await getProducts();
 
-            productList.push(Items[index]);
-        }
 
         setProducts(productList);
     };
