@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, ScrollView, StatusBar, Text, TouchableOpacity, View, Image, FlatList} from 'react-native';
 import {COLOURS, Items} from '../components/database/Database';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {getProducts} from "../handler/products-handler";
 
 const Inventory = ({navigation}) => {
     const [products, setProducts] = useState({});
@@ -18,13 +19,8 @@ const Inventory = ({navigation}) => {
     //get product data by productID
 
     //get data from DB
-    const getDataFromDB = () => {
-        let productList = [];
-        for (let index = 0; index < Items.length; index++) {
-
-            productList.push(Items[index]);
-        }
-
+    const getDataFromDB = async () => {
+        let productList = await getProducts();
         setProducts(productList);
     };
 
@@ -35,11 +31,11 @@ const Inventory = ({navigation}) => {
             }
         >
             <View style={styles.itemContainer}>
-                <Image source={item.productImage} style={styles.itemImage} />
+                <Image source={{uri:item.imgUrl}} style={styles.itemImage} />
                 <View>
-                    <Text style={styles.itemName}>{item.productName}</Text>
-                    <Text style={styles.itemPrice}>R {item.productPrice}.00</Text>
-                    <Text style={styles.itemCount}>Stock left: 10</Text>
+                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemPrice}>R {item.price}.00</Text>
+                    <Text style={styles.itemCount}>Stock left: {item.stock}</Text>
                 </View>
             </View>
         </TouchableOpacity>

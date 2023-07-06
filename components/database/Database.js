@@ -15,8 +15,8 @@ export const Items = [
   {
     id: 1,
     category: 'product',
-    productName: 'Wireless Headphones',
-    productPrice: 1799,
+    name: 'Wireless Headphones',
+    price: 1799,
     description:
       'Up to 20 hours battery life | Super powerful Bass | 40mm dynamic driver | Pressure less ear muffs | Bluetooth 5.0 | Voice control',
     isOff: true,
@@ -28,8 +28,8 @@ export const Items = [
   {
     id: 2,
     category: 'product',
-    productName: 'Headphones 2',
-    productPrice: 1499,
+    name: 'Headphones 2',
+    price: 1499,
     description:
       'boAt Rockerz 450 M is an on-ear wireless headset that has been ergonomically designed to meet the needs of music lovers.',
     isOff: false,
@@ -40,8 +40,8 @@ export const Items = [
   /*{
     id: 3,
     category: 'accessory',
-    productName: 'Bananas',
-    productPrice: 10,
+    name: 'Bananas',
+    price: 10,
     description:
       'Bluetooth: It has Bluetooth v5.0 with a range of 10m and is compatible with Android & iOS',
     isOff: true,
@@ -52,8 +52,8 @@ export const Items = [
   {
     id: 4,
     category: 'accessory',
-    productName: 'Avocado',
-    productPrice: 399,
+    name: 'Avocado',
+    price: 399,
     description:
       'Fly into your workouts with precise tones that inspire and energize your system with its HD sound, all the time.',
     isOff: false,
@@ -63,8 +63,8 @@ export const Items = [
   {
     id: 5,
     category: 'accessory',
-    productName: 'Pear',
-    productPrice: 1499,
+    name: 'Pear',
+    price: 1499,
     description:
       'The unbeatable boAt signature sound shines through no matter what are you playing courtesy its 10mm drivers.',
     isOff: false,

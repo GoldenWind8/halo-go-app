@@ -33,8 +33,6 @@ function Home({navigation}) {
     //get data from DB
     const getDataFromDB = async () => {
         let productList = await getProducts();
-
-
         setProducts(productList);
     };
     return (

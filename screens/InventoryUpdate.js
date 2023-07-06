@@ -2,6 +2,7 @@ import {ScrollView, TextInput, Text, View, StatusBar, StyleSheet, Image, Dimensi
 import Entypo from "react-native-vector-icons/Entypo";
 import React, {useEffect, useState} from "react";
 import {COLOURS, Items} from "../components/database/Database";
+import {addProduct, getProduct, updateProduct} from "../handler/products-handler";
 
 
 const InventoryUpdate = ({route, navigation}) => {
@@ -28,20 +29,18 @@ const InventoryUpdate = ({route, navigation}) => {
     //get product data by productID
 
     const getDataFromDB = async () => {
-        for (let index = 0; index < Items.length; index++) {
-            if (Items[index].id == productID) {
-                await setProduct(Items[index]);
-                return;
-            }
-        }
+        const product = await getProduct(productID);
+        await setProduct(product);
+        return;
     };
 
     function updateProductInDB(product) {
+        updateProduct(product);
 
     }
 
     function addProductToDB(product) {
-
+        addProduct(product);
     }
 
     const handleSubmit = () => {
@@ -73,7 +72,7 @@ const InventoryUpdate = ({route, navigation}) => {
                             marginBottom:20,
                         }}>
                         <Image
-                            source={product.productImage}
+                            source={{uri: product.imgUrl}}
                             style={{
                                 width: '100%',
                                 height: '100%',
@@ -84,10 +83,10 @@ const InventoryUpdate = ({route, navigation}) => {
                 </View>
                 <View style={{paddingHorizontal: 16, marginTop: 6, backgroundColor:COLOURS.backgroundDark}}>
                     <View style={{flexDirection: 'row', marginVertical: 4, alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Text style={styles.productName}>{product.productName}</Text>
+                        <Text style={styles.productName}>{product.name}</Text>
                     </View>
-                    <Text style={styles.productPrice}>R {product.productPrice}.00</Text>
-                    <TextInput>Stock left: 32</TextInput>
+                    <Text style={styles.productPrice}>R {product.price}.00</Text>
+                    <TextInput>Stock left: {product.stock}</TextInput>
                 </View>
             </ScrollView>
 
