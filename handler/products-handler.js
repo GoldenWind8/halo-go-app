@@ -1,5 +1,5 @@
 import {auth, db} from "../firebase-config";
-import { collection, getDocs, getDoc, addDoc, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 
 export async function getProducts() {
     const products = [];
@@ -34,4 +34,10 @@ export async function updateProduct(updatedProduct) {
     const productRef = doc(db, "products", updatedProduct.id);
     await updateDoc(productRef, updatedProduct);
     console.log(`Product with ID ${updatedProduct.id} updated.`);
+}
+
+export async function deleteProduct(id) {
+    const productRef = doc(db, "products", id);
+    await deleteDoc(productRef);
+    console.log(`Product with ID ${id} deleted.`);
 }

@@ -2,7 +2,7 @@ import {Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} 
 import Entypo from "react-native-vector-icons/Entypo";
 import React, {useEffect, useState} from "react";
 import {COLOURS, Items} from "../components/database/Database";
-import {addProduct, getProduct, updateProduct} from "../handler/products-handler";
+import {addProduct, getProduct, updateProduct, deleteProduct} from "../handler/products-handler";
 import InventoryInput from "../components/InventoryInput";
 
 
@@ -58,6 +58,22 @@ const InventoryUpdate = ({route, navigation}) => {
         navigation.goBack();
     };
 
+    const deleteProductFromDB = (id) => {
+        Alert.alert(
+            "Delete product",
+            "Are you sure you want to delete this product?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Deletion cancelled"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => deleteProduct(id) }
+            ],
+            { cancelable: false }
+        );
+    };
+    
     return (
         <View style={[styles.container, {minHeight: rootViewHeight}]}>
             <StatusBar backgroundColor={COLOURS.backgroundLight} barStyle="dark-content"/>
@@ -66,6 +82,7 @@ const InventoryUpdate = ({route, navigation}) => {
                         <TouchableOpacity onPress={() => navigation.goBack('Inventory')}>
                             <Entypo name="chevron-left" style={styles.backButton} />
                         </TouchableOpacity>
+                        
                     </View>
                     <View
                         style={{
@@ -102,6 +119,11 @@ const InventoryUpdate = ({route, navigation}) => {
                     </View>
                 </View>
             <View style={styles.addToCartButton}>
+            {isEditing && (
+                    <TouchableOpacity onPress={() => deleteProductFromDB(product.id)}>
+                        <Text style={styles.deleteButtonText}>Delete Product</Text>
+                    </TouchableOpacity>
+                )}
                 <TouchableOpacity
                     onPress={handleSubmit}
                     style={styles.addToCartButtonContainer}>
@@ -206,5 +228,12 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         color: COLOURS.white,
         textTransform: 'uppercase',
+    },
+    deleteButtonText: {
+        color: 'red',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
+        marginTop: 10,
     },
 });
