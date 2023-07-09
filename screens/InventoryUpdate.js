@@ -1,14 +1,18 @@
-import {ScrollView, TextInput, Text, View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity} from "react-native";
+import {Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import React, {useEffect, useState} from "react";
 import {COLOURS, Items} from "../components/database/Database";
 import {addProduct, getProduct, updateProduct} from "../handler/products-handler";
+import InventoryInput from "../components/InventoryInput";
 
 
 const InventoryUpdate = ({route, navigation}) => {
-    const {productID, isEditing} = route.params;
+    const { height: windowHeight } = Dimensions.get('window'); // window always returns height as if the application can draw under StatusBar
+    const statusBarHeight = StatusBar.currentHeight || 0;
+    const rootViewHeight = windowHeight - (statusBarHeight);
 
-    const [product, setProduct] = useState(Items[0]);
+    const {productID, isEditing} = route.params;
+    const [product, setProduct] = useState(Items[0]);//TODO replace with empty product,  deletion, imgage
 
     const updateField = (field, value) => {
         setProduct({
@@ -20,7 +24,9 @@ const InventoryUpdate = ({route, navigation}) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            getDataFromDB();
+            if(isEditing){
+                getDataFromDB();
+            }
         });
 
         return unsubscribe;
@@ -36,7 +42,6 @@ const InventoryUpdate = ({route, navigation}) => {
 
     function updateProductInDB(product) {
         updateProduct(product);
-
     }
 
     function addProductToDB(product) {
@@ -54,11 +59,10 @@ const InventoryUpdate = ({route, navigation}) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {minHeight: rootViewHeight}]}>
             <StatusBar backgroundColor={COLOURS.backgroundLight} barStyle="dark-content"/>
-            <ScrollView>
                 <View style={styles.infoContainer}>
-                    <View style={styles.header}>
+                    <View style={styles.chevron}>
                         <TouchableOpacity onPress={() => navigation.goBack('Inventory')}>
                             <Entypo name="chevron-left" style={styles.backButton} />
                         </TouchableOpacity>
@@ -66,33 +70,40 @@ const InventoryUpdate = ({route, navigation}) => {
                     <View
                         style={{
                             width: width,
-                            height: 240,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginBottom:20,
+                            marginBottom:10,
                         }}>
                         <Image
                             source={{uri: product.imgUrl}}
                             style={{
-                                width: '100%',
-                                height: '100%',
+                                width: 150,
+                                height: 150,
                                 resizeMode: 'contain',
+                                borderRadius: 25,
                             }}
                         />
                     </View>
                 </View>
-                <View style={{paddingHorizontal: 16, marginTop: 6, backgroundColor:COLOURS.backgroundDark}}>
-                    <View style={{flexDirection: 'row', marginVertical: 4, alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Text style={styles.productName}>{product.name}</Text>
+                <View style={{paddingHorizontal: 16, backgroundColor:COLOURS.backgroundLight,
+                    borderBottomRightRadius: 20,
+                    borderBottomLeftRadius: 20,}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Name</Text>
+                        <InventoryInput onChangeText={text => updateField("name", text)} value={product.name}/>
                     </View>
-                    <Text style={styles.productPrice}>R {product.price}.00</Text>
-                    <TextInput>Stock left: {product.stock}</TextInput>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Price</Text>
+                        <InventoryInput onChangeText={text => updateField("price", text)} value={""+product.price}/>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Stock</Text>
+                        <InventoryInput onChangeText={text => updateField("stock", text)} value={""+product.stock} />
+                    </View>
                 </View>
-            </ScrollView>
-
             <View style={styles.addToCartButton}>
                 <TouchableOpacity
-                    onPress={() => (/*product.isAvailable ? addToCart(product.id) :*/ null)}
+                    onPress={handleSubmit}
                     style={styles.addToCartButtonContainer}>
                     <Text style={styles.addToCartButtonText}>
                         {isEditing ? 'Update Product' : 'Add Product'}
@@ -108,22 +119,25 @@ export default InventoryUpdate;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: '100%',
         backgroundColor: COLOURS.white,
         position: 'relative',
+        flex:1,
     },
     infoContainer: {
         width: '100%',
         backgroundColor: COLOURS.backgroundLight,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 4,
     },
     header: {
-        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 16,
+        paddingLeft: 16,
+    },
+    chevron: {
+        width:'100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 16,
@@ -178,6 +192,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     addToCartButtonContainer: {
+        position: 'absolute', bottom: 10,
         width: '86%',
         height: '90%',
         backgroundColor: COLOURS.blue,
