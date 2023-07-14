@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Image, ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {COLOURS, Items} from '../components/database/Database';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {getProduct} from "../handler/products-handler";
 
 const ProductInfo = ({route, navigation}) => {
     const {productID} = route.params;
@@ -22,12 +23,9 @@ const ProductInfo = ({route, navigation}) => {
     //get product data by productID
 
     const getDataFromDB = async () => {
-        for (let index = 0; index < Items.length; index++) {
-            if (Items[index].id == productID) {
-                await setProduct(Items[index]);
-                return;
-            }
-        }
+        const product = await getProduct(productID);
+        await setProduct(product);
+        return;
     };
 
 
@@ -50,7 +48,7 @@ const ProductInfo = ({route, navigation}) => {
                             marginBottom:20,
                         }}>
                         <Image
-                            source={product.productImage}
+                            source={{uri:product.imgUrl}}
                             style={{
                                 width: '100%',
                                 height: '100%',
@@ -61,11 +59,10 @@ const ProductInfo = ({route, navigation}) => {
                 </View>
                 <View style={{paddingHorizontal: 16, marginTop: 6}}>
                     <View style={{flexDirection: 'row', marginVertical: 4, alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Text style={styles.productName}>{product.productName}</Text>
+                        <Text style={styles.productName}>{product.name}</Text>
                     </View>
-                    <Text style={styles.productDescription}>{product.description}</Text>
-                    <Text style={styles.productPrice}>R {product.productPrice}.00</Text>
-                    <Text>Stock left: 32</Text>
+                    <Text style={styles.productPrice}>R {product.price}.00</Text>
+                    <Text>Stock left: {product.stock}</Text>
                 </View>
             </ScrollView>
 

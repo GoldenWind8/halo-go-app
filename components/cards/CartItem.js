@@ -22,10 +22,10 @@ function CartItem({data}) {
             </View>
             <View style={styles.infoContainer}>
                 <View>
-                    <Text style={styles.productName}>{data.productName}</Text>
+                    <Text style={styles.productName}>{data.name}</Text>
                     <View style={styles.priceContainer}>
                         <Text style={styles.price}>
-                            R{data.productPrice}
+                            R{data.price}
                         </Text>
                     </View>
                 </View>

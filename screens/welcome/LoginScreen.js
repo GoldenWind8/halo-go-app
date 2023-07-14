@@ -17,8 +17,8 @@ import {login} from "../../handler/firebase-handler";
 
 
 const LoginScreen = ({ navigation: { navigate } }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('admin@gmail.com');
+    const [password, setPassword] = useState('adminuser');
 
     const handleLogin = async () => {
         try {
@@ -39,8 +39,8 @@ const LoginScreen = ({ navigation: { navigate } }) => {
                     <Text style={styles.loginText}>Login</Text>
                 </View>
                 <View style={styles.inputContainer}>
-                    <AppTextInput placeholder="Email" onChangeText={text => setEmail(text)} />
-                    <AppTextInput placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry />
+                    <AppTextInput placeholder="Email" onChangeText={text => setEmail(text)} value={email}/>
+                    <AppTextInput placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry value={password} />
                 </View>
                 <View style={styles.forgotPasswordContainer}>
                     <Text style={styles.forgotPasswordText}>Forgot your password ?</Text>

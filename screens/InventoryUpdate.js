@@ -1,13 +1,18 @@
-import {ScrollView, TextInput, Text, View, StatusBar, StyleSheet, Image, Dimensions, TouchableOpacity} from "react-native";
+import {Alert, Dimensions, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import React, {useEffect, useState} from "react";
 import {COLOURS, Items} from "../components/database/Database";
+import {addProduct, getProduct, updateProduct, deleteProduct} from "../handler/products-handler";
+import InventoryInput from "../components/InventoryInput";
 
 
 const InventoryUpdate = ({route, navigation}) => {
-    const {productID, isEditing} = route.params;
+    const { height: windowHeight } = Dimensions.get('window'); // window always returns height as if the application can draw under StatusBar
+    const statusBarHeight = StatusBar.currentHeight || 0;
+    const rootViewHeight = windowHeight - (statusBarHeight);
 
-    const [product, setProduct] = useState(Items[0]);
+    const {productID, isEditing} = route.params;
+    const [product, setProduct] = useState(Items[0]);//TODO replace with empty product,  deletion, imgage
 
     const updateField = (field, value) => {
         setProduct({
@@ -19,7 +24,9 @@ const InventoryUpdate = ({route, navigation}) => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            getDataFromDB();
+            if(isEditing){
+                getDataFromDB();
+            }
         });
 
         return unsubscribe;
@@ -28,20 +35,17 @@ const InventoryUpdate = ({route, navigation}) => {
     //get product data by productID
 
     const getDataFromDB = async () => {
-        for (let index = 0; index < Items.length; index++) {
-            if (Items[index].id == productID) {
-                await setProduct(Items[index]);
-                return;
-            }
-        }
+        const product = await getProduct(productID);
+        await setProduct(product);
+        return;
     };
 
     function updateProductInDB(product) {
-
+        updateProduct(product);
     }
 
     function addProductToDB(product) {
-
+        addProduct(product);
     }
 
     const handleSubmit = () => {
@@ -54,46 +58,82 @@ const InventoryUpdate = ({route, navigation}) => {
         navigation.goBack();
     };
 
+    const deleteProductFromDB = (id) => {
+        Alert.alert(
+            "Delete product",
+            "Are you sure you want to delete this product?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Deletion cancelled"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    deleteProduct(id).then(r => navigation.goBack());
+
+                } }
+            ],
+            { cancelable: false }
+        );
+    };
+
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {minHeight: rootViewHeight}]}>
             <StatusBar backgroundColor={COLOURS.backgroundLight} barStyle="dark-content"/>
-            <ScrollView>
                 <View style={styles.infoContainer}>
-                    <View style={styles.header}>
+                    <View style={styles.chevron}>
                         <TouchableOpacity onPress={() => navigation.goBack('Inventory')}>
                             <Entypo name="chevron-left" style={styles.backButton} />
                         </TouchableOpacity>
+
                     </View>
                     <View
                         style={{
                             width: width,
-                            height: 240,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginBottom:20,
+                            marginBottom:10,
                         }}>
                         <Image
-                            source={product.productImage}
+                            source={{uri: product.imgUrl}}
                             style={{
-                                width: '100%',
-                                height: '100%',
+                                width: 150,
+                                height: 150,
                                 resizeMode: 'contain',
+                                borderRadius: 25,
                             }}
                         />
                     </View>
                 </View>
-                <View style={{paddingHorizontal: 16, marginTop: 6, backgroundColor:COLOURS.backgroundDark}}>
-                    <View style={{flexDirection: 'row', marginVertical: 4, alignItems: 'center', justifyContent: 'space-between'}}>
-                        <Text style={styles.productName}>{product.productName}</Text>
+                <View style={{paddingHorizontal: 16, backgroundColor:COLOURS.backgroundLight,
+                    borderBottomRightRadius: 20,
+                    borderBottomLeftRadius: 20,}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Name</Text>
+                        <InventoryInput onChangeText={text => updateField("name", text)} value={product.name}/>
                     </View>
-                    <Text style={styles.productPrice}>R {product.productPrice}.00</Text>
-                    <TextInput>Stock left: 32</TextInput>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Price</Text>
+                        <InventoryInput onChangeText={text => updateField("price", text)} value={""+product.price}/>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.header}>Stock</Text>
+                        <InventoryInput onChangeText={text => updateField("stock", text)} value={""+product.stock} />
+                    </View>
                 </View>
-            </ScrollView>
-
             <View style={styles.addToCartButton}>
+                {isEditing && (
+                    <TouchableOpacity
+                        onPress={() => deleteProductFromDB(product.id)}
+                        style={styles.deleteButtonContainer}>
+                        <Text style={styles.addToCartButtonText}>
+                            {'Delete Product'}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+
                 <TouchableOpacity
-                    onPress={() => (/*product.isAvailable ? addToCart(product.id) :*/ null)}
+                    onPress={handleSubmit}
                     style={styles.addToCartButtonContainer}>
                     <Text style={styles.addToCartButtonText}>
                         {isEditing ? 'Update Product' : 'Add Product'}
@@ -109,22 +149,25 @@ export default InventoryUpdate;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: '100%',
         backgroundColor: COLOURS.white,
         position: 'relative',
+        flex:1,
     },
     infoContainer: {
         width: '100%',
         backgroundColor: COLOURS.backgroundLight,
-        borderBottomRightRadius: 20,
-        borderBottomLeftRadius: 20,
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 4,
     },
     header: {
-        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 16,
+        paddingLeft: 16,
+    },
+    chevron: {
+        width:'100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 16,
@@ -173,14 +216,17 @@ const styles = StyleSheet.create({
     addToCartButton: {
         position: 'absolute',
         bottom: 10,
-        height: '8%',
+        flexDirection: 'column',
+        height: '20%',
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     addToCartButtonContainer: {
+        margin: 10,
         width: '86%',
-        height: '90%',
+        flex:1,
+        maxHeight: '40%',
         backgroundColor: COLOURS.blue,
         borderRadius: 20,
         justifyContent: 'center',
@@ -192,5 +238,21 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         color: COLOURS.white,
         textTransform: 'uppercase',
+    },
+    deleteButtonText: {
+        color: 'red',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
+        marginTop: 10,
+    },
+    deleteButtonContainer: {
+        margin: 10,
+        width: '86%',
+        flex: 1,
+        backgroundColor: COLOURS.red,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
